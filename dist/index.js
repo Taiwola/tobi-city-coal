@@ -28,6 +28,8 @@ app.use((0, cors_1.default)({
     origin: "*"
 }));
 app.use((0, helmet_1.default)());
+const newsletter_routes_1 = require("./route/newsletter.routes");
+app.use("/api/newletter", newsletter_routes_1.newletterRouter);
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });

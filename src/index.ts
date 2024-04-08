@@ -27,6 +27,9 @@ app.use(cors({
 app.use(helmet());
 
 
+import { newletterRouter } from "./route/newsletter.routes";
+app.use("/api/newletter", newletterRouter);
+
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
