@@ -28,8 +28,10 @@ app.use(helmet());
 
 
 import { newletterRouter } from "./route/newsletter.routes";
-app.use("/api/newsletter", newletterRouter);
+import { paymentRouter } from "./route/payment.route";
 
+app.use("/api/newsletter", newletterRouter);
+app.use("/api/payment", paymentRouter);
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

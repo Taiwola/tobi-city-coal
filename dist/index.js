@@ -29,7 +29,9 @@ app.use((0, cors_1.default)({
 }));
 app.use((0, helmet_1.default)());
 const newsletter_routes_1 = require("./route/newsletter.routes");
+const payment_route_1 = require("./route/payment.route");
 app.use("/api/newsletter", newsletter_routes_1.newletterRouter);
+app.use("/api/payment", payment_route_1.paymentRouter);
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
