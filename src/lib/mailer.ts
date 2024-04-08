@@ -5,12 +5,19 @@ import ejs from "ejs";
 
 interface EmailOptions {
     email: string;
-    text: string
+    participant_fullname: string;
+    participant_contact: number
+    participant_name: string;
+    customer_support_mail: string;
+    category: string;
+    city_coal_name: string;
+    registrationId: string;
+
 }
 
 
 
-export async function email1({ email, text }: EmailOptions): Promise<{ error: boolean, errorMessage: string }> {
+export async function email1({ email, participant_fullname, participant_contact, participant_name, customer_support_mail, city_coal_name, registrationId, category }: EmailOptions): Promise<{ error: boolean, errorMessage: string }> {
     
     const templatePath = path.join(__dirname, '..', '..', 'views', 'first_email.ejs');
     
@@ -27,7 +34,16 @@ export async function email1({ email, text }: EmailOptions): Promise<{ error: bo
     let mailOptions;
 
     try {
-        const template = await ejs.renderFile(templatePath);
+        const template = await ejs.renderFile(templatePath, {
+            email, 
+            participant_fullname, 
+            participant_contact, 
+            participant_name, 
+            customer_support_mail, 
+            city_coal_name, 
+            registrationId, 
+            category
+        });
 
         mailOptions = {
             from: {
@@ -36,7 +52,7 @@ export async function email1({ email, text }: EmailOptions): Promise<{ error: bo
             },
             to: email,
             subject: "newsletter",
-            html: template
+            html: template,
         };
         await sendMail(mailOptions);
         return { error: false, errorMessage: "" };

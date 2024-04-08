@@ -39,7 +39,7 @@ exports.email1 = void 0;
 const mailer_config_1 = require("../config/mailer.config");
 const path = __importStar(require("path"));
 const ejs_1 = __importDefault(require("ejs"));
-function email1({ email, text }) {
+function email1({ email, participant_fullname, participant_contact, participant_name, customer_support_mail, city_coal_name, registrationId, category }) {
     return __awaiter(this, void 0, void 0, function* () {
         const templatePath = path.join(__dirname, '..', '..', 'views', 'first_email.ejs');
         let verify;
@@ -54,7 +54,16 @@ function email1({ email, text }) {
             return { error: true, errorMessage: "" };
         let mailOptions;
         try {
-            const template = yield ejs_1.default.renderFile(templatePath);
+            const template = yield ejs_1.default.renderFile(templatePath, {
+                email,
+                participant_fullname,
+                participant_contact,
+                participant_name,
+                customer_support_mail,
+                city_coal_name,
+                registrationId,
+                category
+            });
             mailOptions = {
                 from: {
                     name: "Newsletter",
@@ -62,7 +71,7 @@ function email1({ email, text }) {
                 },
                 to: email,
                 subject: "newsletter",
-                html: template
+                html: template,
             };
             yield (0, mailer_config_1.sendMail)(mailOptions);
             return { error: false, errorMessage: "" };

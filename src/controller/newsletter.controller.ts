@@ -29,7 +29,7 @@ export const addEmail = async (req: Request, res: Response) => {
 // Controller function to send the first email
 export const sendFirstMail = async (req: Request, res: Response) => {
     // Destructuring email and text from the request body
-    const { email, firstname, lastname, contact_number } = req.body;
+    const { email, firstname, lastname, contact_number, category, customer_support_mail, registationId, username  } = req.body;
 
     // Checking if the email already exists in the database
     const emailExist = await getOneUserByEmail(email);
@@ -47,7 +47,13 @@ export const sendFirstMail = async (req: Request, res: Response) => {
         // Sending the email using the email1 function
         const { error, errorMessage } = await email1({
             email: propsEmail as string,
-            text: "hello"
+            participant_fullname: firstname +' '+ lastname,
+            participant_contact: contact_number,
+            participant_name: firstname,
+            customer_support_mail: customer_support_mail,
+            category: category,
+            city_coal_name: username,
+            registrationId: registationId
         });
 
         // Handling any errors during email sending

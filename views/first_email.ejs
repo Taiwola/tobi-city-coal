@@ -38,18 +38,20 @@
             font-weight: 900;
             color: #FFFFFF;
         }
+
     </style>
 </head>
 <body>
     <main class="main">
-        <div class="bdy" style="background-color: #262626; display: flex; flex-direction: column;">
+        <div style="padding: 20px 20px; background-color: #3A3A3A; position: relative; border: 1px solid blue; display: flex; justify-content: center; align-items: center;width: 90%;">
+            <div class="bdy" style="background-color: #262626; display: flex; flex-direction: column; border-radius: 10px; max-width: 70%; margin: 0 auto;">
             <div class="bdy-content" style="display: block;">
                 <div class="logo">
                     <img src="https://res.cloudinary.com/dwl0pqzlx/image/upload/v1712586316/Frame_5_objfql.png" alt="">
                 </div>
                 <h2 style="font-family: 'Darker Grotesque', sans-serif; font-size: 20px; font-weight: 900; color: #FFFFFF;">Successful Registration for Coal-City Half Marathon</h2>
 
-                <h1 style="font-family: 'Darker Grotesque', sans-serif; font-size: 24px; font-weight: 900; color: #FFFFFF;">Dear [Participant's Name],</h1>
+                <h1 style="font-family: 'Darker Grotesque', sans-serif; font-size: 24px; font-weight: 900; color: #FFFFFF;">Dear <%= participant_name %>,</h1>
                 <p style="font-family: 'Darker Grotesque', sans-serif; font-size: 16px; font-weight: 600; color: #FFFFFF;">Congratulations! We are delighted to confirm that your registration for the Coal-City Half Marathon has been successfully processed.</p>
 
                 <div>
@@ -58,18 +60,19 @@
                         <li>Event Name: Coal-City Half Marathon</li>
                         <li>Date: [Event Date]</li>
                         <li>Location: [Event Location]</li>
-                        <li>Registration ID: [XXXXXXX]</li>
-                        <li>Category: [e.g., Half Marathon, Fun Run, etc.]</li>
-                        <li>Participant Name: [Participant's Full Name]</li>
-                        <li>Contact Number: [Participant's Contact Number]</li>
-                        <li>Email Address: [Participant's Email Address]</li>
+                        <li>Registration ID: <%= registrationId %></li>
+                        <li>Category: <%= category %> </li>
+                        <li>Participant Name: <%= participant_fullname %> </li>
+                        <li>Contact Number: <%= participant_contact %> </li>
+                        <li>Email Address: <%= email %> </li>
                     </ul>
                 </div>
 
                 <p style="font-family: 'Darker Grotesque', sans-serif; font-size: 16px; font-weight: 600; color: #FFFFFF;">Please keep this email for your records. If you have any questions regarding your registration, feel free to contact us at [Customer Support Email] or [Customer Support Phone Number]. We look forward to seeing you at the starting line!</p>
 
-                <p style="font-family: 'Darker Grotesque', sans-serif; font-size: 16px; font-weight: 600; color: #FFFFFF;">Warm Regards,<br>[Your Name] [Event Organizer/Company Name]</p>
+                <p style="font-family: 'Darker Grotesque', sans-serif; font-size: 16px; font-weight: 600; color: #FFFFFF;">Warm Regards,<br> <%= city_coal_name %> [Event Organizer/Company Name]</p>
             </div>
+        </div>
         </div>
     </main>
 </body>

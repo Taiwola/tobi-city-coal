@@ -34,7 +34,7 @@ exports.addEmail = addEmail;
 // Controller function to send the first email
 const sendFirstMail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Destructuring email and text from the request body
-    const { email, firstname, lastname, contact_number } = req.body;
+    const { email, firstname, lastname, contact_number, category, customer_support_mail, registationId, username } = req.body;
     // Checking if the email already exists in the database
     const emailExist = yield (0, service_1.getOneUserByEmail)(email);
     let newEmail;
@@ -48,7 +48,13 @@ const sendFirstMail = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         // Sending the email using the email1 function
         const { error, errorMessage } = yield (0, mailer_1.email1)({
             email: propsEmail,
-            text: "hello"
+            participant_fullname: firstname + ' ' + lastname,
+            participant_contact: contact_number,
+            participant_name: firstname,
+            customer_support_mail: customer_support_mail,
+            category: category,
+            city_coal_name: username,
+            registrationId: registationId
         });
         // Handling any errors during email sending
         if (error) {
