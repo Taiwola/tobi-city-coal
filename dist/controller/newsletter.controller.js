@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.remove_user_email = exports.get_one_email = exports.get_all_email = exports.sendFirstMail = exports.addEmail = void 0;
 const service_1 = require("../service");
-// import { email1 } from "../lib/mailer";
+const mailer_1 = require("../lib/mailer");
 // Controller function to add an email
 const addEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = req.body; // Destructuring email from request body
@@ -46,15 +46,15 @@ const sendFirstMail = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const propsEmail = (emailExist === null || emailExist === void 0 ? void 0 : emailExist.user_email) || (newEmail === null || newEmail === void 0 ? void 0 : newEmail.user_email);
     try {
         // Sending the email using the email1 function
-        // const { error, errorMessage } = await email1({
-        //     email: propsEmail as string,
-        //     text: text
-        // });
+        const { error, errorMessage } = yield (0, mailer_1.email1)({
+            email: propsEmail,
+            text: "hello"
+        });
         // Handling any errors during email sending
-        // if (error) {
-        //     console.log(errorMessage);
-        //     return res.status(400).json({ message: "Failed to send email" });
-        // }
+        if (error) {
+            console.log(errorMessage);
+            return res.status(400).json({ message: "Failed to send email" });
+        }
         // Returning success message if email is sent successfully
         return res.status(201).json({ message: "Mail sent" });
     }

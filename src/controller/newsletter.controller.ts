@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { removeUserEmail, addUserEmail, getAllUserEmail, getOneUserEmail, getOneUserByEmail } from "../service";
-// import { email1 } from "../lib/mailer";
+import { email1 } from "../lib/mailer";
 
 
 
@@ -45,16 +45,16 @@ export const sendFirstMail = async (req: Request, res: Response) => {
 
     try {
         // Sending the email using the email1 function
-        // const { error, errorMessage } = await email1({
-        //     email: propsEmail as string,
-        //     text: text
-        // });
+        const { error, errorMessage } = await email1({
+            email: propsEmail as string,
+            text: "hello"
+        });
 
         // Handling any errors during email sending
-        // if (error) {
-        //     console.log(errorMessage);
-        //     return res.status(400).json({ message: "Failed to send email" });
-        // }
+        if (error) {
+            console.log(errorMessage);
+            return res.status(400).json({ message: "Failed to send email" });
+        }
 
         // Returning success message if email is sent successfully
         return res.status(201).json({ message: "Mail sent" });

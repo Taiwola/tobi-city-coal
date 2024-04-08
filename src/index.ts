@@ -28,7 +28,7 @@ app.use(helmet());
 
 
 import { newletterRouter } from "./route/newsletter.routes";
-app.use("/api/newletter", newletterRouter);
+app.use("/api/newsletter", newletterRouter);
 
 
 app.listen(PORT, () => {
