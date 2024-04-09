@@ -22,15 +22,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -39,46 +30,45 @@ exports.email1 = void 0;
 const mailer_config_1 = require("../config/mailer.config");
 const path = __importStar(require("path"));
 const ejs_1 = __importDefault(require("ejs"));
-function email1({ email, participant_fullname, participant_contact, participant_name, customer_support_mail, city_coal_name, registrationId, category }) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const templatePath = path.join(__dirname, '..', '..', 'views', 'first_email.ejs');
-        let verify;
-        try {
-            verify = yield (0, mailer_config_1.verifyTransporter)();
-        }
-        catch (error) {
-            console.log(error);
-            return { error: true, errorMessage: error.message };
-        }
-        if (!verify)
-            return { error: true, errorMessage: "" };
-        let mailOptions;
-        try {
-            const template = yield ejs_1.default.renderFile(templatePath, {
-                email,
-                participant_fullname,
-                participant_contact,
-                participant_name,
-                customer_support_mail,
-                city_coal_name,
-                registrationId,
-                category
-            });
-            mailOptions = {
-                from: {
-                    name: "Newsletter",
-                    address: process.env.MAIL_USERNAME,
-                },
-                to: email,
-                subject: "newsletter",
-                html: template,
-            };
-            yield (0, mailer_config_1.sendMail)(mailOptions);
-            return { error: false, errorMessage: "" };
-        }
-        catch (error) {
-            return { error: true, errorMessage: error.message };
-        }
-    });
+async function email1({ email, participant_fullname, participant_contact, participant_name, customer_support_mail, city_coal_name, registrationId, category }) {
+    const templatePath = path.join(__dirname, '..', '..', 'views', 'first_email.ejs');
+    let verify;
+    try {
+        verify = await (0, mailer_config_1.verifyTransporter)();
+    }
+    catch (error) {
+        console.log(error);
+        return { error: true, errorMessage: error.message };
+    }
+    if (!verify)
+        return { error: true, errorMessage: "" };
+    let mailOptions;
+    try {
+        const template = await ejs_1.default.renderFile(templatePath, {
+            email,
+            participant_fullname,
+            participant_contact,
+            participant_name,
+            customer_support_mail,
+            city_coal_name,
+            registrationId,
+            category
+        });
+        mailOptions = {
+            from: {
+                name: "Newsletter",
+                address: process.env.MAIL_USERNAME,
+            },
+            to: email,
+            subject: "newsletter",
+            html: template,
+        };
+        await (0, mailer_config_1.sendMail)(mailOptions);
+        return { error: false, errorMessage: "" };
+    }
+    catch (error) {
+        return { error: true, errorMessage: error.message };
+    }
 }
 exports.email1 = email1;
+//# sourceMappingURL=mailer.js.map

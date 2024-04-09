@@ -12,3 +12,4 @@ const newsletterSchema = new mongoose_1.default.Schema({
 });
 const Newsletter = mongoose_1.default.model("newsletter", newsletterSchema);
 exports.default = Newsletter;
+//# sourceMappingURL=newsletter.model.js.map

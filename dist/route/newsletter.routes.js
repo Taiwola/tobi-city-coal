@@ -6,3 +6,4 @@ const router = (0, express_1.Router)();
 exports.newletterRouter = router;
 const controller_1 = require("../controller");
 router.post("/sendFirstNewsletter", controller_1.sendFirstMail);
+//# sourceMappingURL=newsletter.routes.js.map

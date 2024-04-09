@@ -4,7 +4,7 @@ import schemaValidator from "../middleware/schemaValidator";
 
 const router = Router();
 
-import { register } from "../controller/user.controller";
+import { register } from "../controller";
 
 router.post("/register",  schemaValidator("/users/register"), register);
 

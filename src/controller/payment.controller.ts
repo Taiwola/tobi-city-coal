@@ -1,60 +1,49 @@
-import { Request, Response } from 'express';
-import got from 'got';
+import { Request, Response } from "express";
+import { getOneUserByEmail } from "../service/user.service";
+import { findOneByUser, handleWebhookEvents } from "../service/payment.service";
 
-
-
-export const payment = async (req: Request, res: Response) => {
-    try {
-        const response: any = await got.post("https://api.flutterwave.com/v3/payments", {
-            headers: {
-                Authorization: `Bearer ${process.env.FLW_SECRET_KEY}`
-            },
-            json: {
-                tx_ref: "your_unique_transaction_reference",
-                amount: req.body.amount,
-                currency: req.body.currency || "NGN",
-                redirect_url: req.body.redirect_url,
-                meta: req.body.meta || {},
-                customer: req.body.customer || {},
-                customizations: req.body.customizations || {}
-            }
-        }).json();
-
-        // Respond with the payment link
-        res.json({
-            status: "success",
-            message: "Hosted Link",
-            data: {
-                link: response?.data.link
-            }
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "An error occurred while initializing payment" });
-    }
-};
-
+// Webhook Handler
 export const flwWebhook = async (req: Request, res: Response) => {
-    try {
-        // Verify the signature to ensure the request is from Flutterwave
-        const secretHash = process.env.FLW_SECRET_HASH;
-        const signature = req.headers["verif-hash"];
+  try {
+    // Process the webhook payload
+    const payload: IFlwData = req.body;
 
-        if (!signature || signature !== secretHash) {
-            // The request is not from Flutterwave; discard
-            return res.status(401).end();
-        }
+    // Send Flw back a response - This is done because flw needs a response ASAP
+    res.status(200).end();
 
-        // Process the webhook payload
-        const payload = req.body;
-        console.log(payload);
+    // Continue option tho
+    // Get user email from the payload
+    const email = payload.customer.email;
 
-        // Handle duplicates (if necessary)
-        // You can check the transaction status and update your records accordingly
+    // Find the user
+    const user = await getOneUserByEmail(email);
 
-        res.status(200).end();
-    } catch (err) {
-        console.error(err);
-        res.status(500).end();
+    if (!user) {
+      // User not found, something happened during registration - LOG INFO TO SLACK
+
+      // End the process
+      return;
     }
+
+    // Find the user payment object
+    const payment = await findOneByUser(user);
+
+    if (!payment) {
+      // Payment not found, something happened during registration - LOG INFO TO SLACK
+
+      // End the process
+      return;
+    }
+
+    /**
+     *  Handle flutterwave success event
+     * Note: it sends @interface IFlwData when the "send webhook on error" field is not ticked on the flw dashboard. Else, it will send @interface IFlwWebhook interface
+     */
+
+    // Hand for IFlwData
+    await handleWebhookEvents(payload, payment);
+  } catch (err) {
+    console.error(err);
+    res.status(500).end();
+  }
 };

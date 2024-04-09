@@ -6,8 +6,9 @@ import express from "express";
 import mongoose from "mongoose";
 import helmet from "helmet";
 
-import { newletterRouter } from "./route/newsletter.routes";
 import { userRouter } from "./route/user.routes";
+import { paymentRouter } from "./route/payment.route";
+import { newletterRouter } from "./route/newsletter.routes";
 
 try {
   mongoose.set("strictQuery", true);
@@ -32,17 +33,9 @@ app.use(
 );
 app.use(helmet());
 
-<<<<<<< HEAD
 app.use("/api/newsletter", newletterRouter);
 app.use("/api/users", userRouter);
-=======
-
-import { newletterRouter } from "./route/newsletter.routes";
-import { paymentRouter } from "./route/payment.route";
-
-app.use("/api/newsletter", newletterRouter);
-app.use("/api/payment", paymentRouter);
->>>>>>> 2ff2b7c04a33d31ba9e84fa529d314eab14a33c8
+app.use("/api/payments", paymentRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

@@ -11,6 +11,7 @@ interface JoiError {
   error: {
     original: unknown;
     details: ValidationError[];
+    data: ValidationError;
   };
 }
 
@@ -49,14 +50,19 @@ const schemaValidator = (path: string, useJoiError = true): RequestHandler => {
         error: "Invalid request. Please review request and try again.",
       };
 
+      const details = error.details.map(
+        ({ message, type }: ValidationError) => ({
+          message: message.replace(/['"]/g, ""),
+          type,
+        })
+      );
+
       const joiError: JoiError = {
         status: "failed",
         error: {
           original: error._original,
-          details: error.details.map(({ message, type }: ValidationError) => ({
-            message: message.replace(/['"]/g, ""),
-            type,
-          })),
+          data: details[0],
+          details,
         },
       };
 
