@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios, { AxiosError } from "axios";
 import PaymentModel from "../model/payment.model";
 import { Error } from "mongoose";
+import { transactionVerified } from "../lib/mailer";
 
 const config = {
   headers: {
@@ -33,7 +34,7 @@ export const getPaymentLink = async (user: User) => {
       tx_ref: reference,
       amount: "2000",
       currency: "NGN",
-      redirect_url: "http://localhost:5173/",
+      redirect_url: "http://localhost:5412/",
       customer: {
         email: user.email,
         phonenumber: user.phoneNumber,
@@ -126,7 +127,13 @@ export const handleWebhookEvents = async (
     await update(payment);
 
     // Send Email to the user
-    // - SEND EMAIL HERE?
+    const {error, errorMessage} = await transactionVerified( payload.customer.name, payload.customer.email, payload.amount, payload.payment_type);
+
+    if (error) {
+      return errorMessage;
+    }
+
+
 
     // ADD TO GOOGLE DOCS - sheet should be named paid
   } catch (error) {

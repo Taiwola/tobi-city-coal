@@ -12,6 +12,8 @@ type User = {
 
 type Payment = {
   id: string;
+  // update the types to add user
+  user: User;
   reference: string;
   status: "pending" | "successful" | "failed";
 };

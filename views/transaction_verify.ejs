@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Define your CSS styles inline */
+        .bdy {
+            background-color: #262626;
+            padding: 21px 16px;
+            height: max-content;
+        }
+
+        .bdy-content {
+            display: flex;
+            flex-direction: column;
+            gap: 23px;
+        }
+
+        .bdy p, .bdy ul {
+            font-family: "Darker Grotesque", sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .bdy h2 {
+            font-family: "Darker Grotesque", sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: #FFFFFF;
+        }
+
+        .bdy h1 {
+            font-family: "Darker Grotesque", sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            color: #FFFFFF;
+        }
+
+    </style>
+</head>
+<body>
+    <main class="main">
+        <div style="padding: 20px 20px; background-color: #3A3A3A; position: relative; border: 1px solid blue; display: flex; justify-content: center; align-items: center;width: 90%;">
+            <div class="bdy" style="background-color: #262626; display: flex; flex-direction: column; border-radius: 10px; max-width: 70%; margin: 0 auto;">
+            <div class="bdy-content" style="display: block;">
+                <div class="logo">
+                    <img src="https://res.cloudinary.com/dwl0pqzlx/image/upload/v1712586316/Frame_5_objfql.png" alt="">
+                </div>
+                <h2 style="font-family: 'Darker Grotesque', sans-serif; font-size: 20px; font-weight: 900; color: #FFFFFF;">Payment Confirmation for Coal-City Half Marathon</h2>
+
+                <h1 style="font-family: 'Darker Grotesque', sans-serif; font-size: 24px; font-weight: 900; color: #FFFFFF;">Dear <%= participant_name %>,</h1>
+                <p style="font-family: 'Darker Grotesque', sans-serif; font-size: 16px; font-weight: 600; color: #FFFFFF;">We are pleased to confirm that we have received your payment for the Coal-City Half Marathon registration. Thank you for completing the payment process!</p>
+
+                <div>
+                    <p style="font-family: 'Darker Grotesque', sans-serif; font-size: 16px; font-weight: 600; color: #FFFFFF;">Payment Details:</p>
+                    <ul style="font-family: 'Darker Grotesque', sans-serif; font-size: 16px; font-weight: 600; color: #FFFFFF;">
+                        <li>Total Amount Paid: [Amount]</li>
+                        <li>Payment Method: [e.g., Credit Card, Bank Transfer, etc.]</li>
+                        <li>Transaction ID: [XXXX-XXXX-XXXX]</li>
+                        <li>Registration ID: [XXXXXXX]</li>
+                    </ul>
+                </div>
+
+                <p style="font-family: 'Darker Grotesque', sans-serif; font-size: 16px; font-weight: 600; color: #FFFFFF;">Please keep this email as a receipt for your payment. If you have any questions or concerns regarding your payment, please don't hesitate to contact our finance department at [Finance Email] or [Finance Phone Number].
+                    Thank you for choosing to participate in the Coal-City Half Marathon. We look forward to a memorable event with you!</p>
+
+                <p style="font-family: 'Darker Grotesque', sans-serif; font-size: 16px; font-weight: 600; color: #FFFFFF;">Warm Regards,<br> <%= city_coal_name %> [Event Organizer/Company Name]</p>
+            </div>
+        </div>
+        </div>
+    </main>
+</body>
+</html>
