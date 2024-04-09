@@ -30,8 +30,15 @@ app.use((0, cors_1.default)({
     origin: "*",
 }));
 app.use((0, helmet_1.default)());
+<<<<<<< HEAD
 app.use("/api/newsletter", newsletter_routes_1.newletterRouter);
 app.use("/api/users", user_routes_1.userRouter);
+=======
+const newsletter_routes_1 = require("./route/newsletter.routes");
+const payment_route_1 = require("./route/payment.route");
+app.use("/api/newsletter", newsletter_routes_1.newletterRouter);
+app.use("/api/payment", payment_route_1.paymentRouter);
+>>>>>>> 2ff2b7c04a33d31ba9e84fa529d314eab14a33c8
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });

@@ -32,8 +32,17 @@ app.use(
 );
 app.use(helmet());
 
+<<<<<<< HEAD
 app.use("/api/newsletter", newletterRouter);
 app.use("/api/users", userRouter);
+=======
+
+import { newletterRouter } from "./route/newsletter.routes";
+import { paymentRouter } from "./route/payment.route";
+
+app.use("/api/newsletter", newletterRouter);
+app.use("/api/payment", paymentRouter);
+>>>>>>> 2ff2b7c04a33d31ba9e84fa529d314eab14a33c8
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
