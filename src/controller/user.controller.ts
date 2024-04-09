@@ -35,7 +35,7 @@ export const register = async (req: Request, res: Response) => {
     // Initiate payment
     const payment = await getPaymentLink(user);
 
-    // Create a google doc sheet for users that registered.
+    // Create a google doc sheet for users that registered - sheet should be named registered.
 
     // DO IT HERE PLEASE!
 

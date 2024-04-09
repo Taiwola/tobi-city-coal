@@ -125,8 +125,10 @@ export const handleWebhookEvents = async (
     payment.status = verify.data.status;
     await update(payment);
 
-    // Send Email
+    // Send Email to the user
     // - SEND EMAIL HERE?
+
+    // ADD TO GOOGLE DOCS - sheet should be named paid
   } catch (error) {
     console.log(error);
 
