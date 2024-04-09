@@ -104,3 +104,170 @@ export async function transactionVerified(
     return { error: true, errorMessage: (error as Error).message };
   }
 }
+
+
+export async function two_weeks_reminder({email, name}: EmailOptions) {
+  const templatePath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "views",
+    "two_weeks.ejs"
+  );
+
+  let verify: boolean;
+  try {
+    verify = await verifyTransporter();
+  } catch (error: unknown) {
+    console.log(error);
+    return { error: true, errorMessage: (error as Error).message };
+  }
+
+  if (!verify) return { error: true, errorMessage: "" };
+
+  let mailOptions;
+  try {
+    const template = await ejs.renderFile(templatePath, {
+      name: name,
+    });
+
+    mailOptions = {
+      from: {
+        name: "Coal City Half Marathon",
+        address: process.env.MAIL_USERNAME as string,
+      },
+      to: email,
+      subject: "REMINDER TWO WEEKS BEFORE THE MARATHON",
+      html: template,
+    };
+    await sendMail(mailOptions);
+    return { error: false, errorMessage: "" };
+  } catch (error) {
+    return { error: true, errorMessage: (error as Error).message };
+  }
+}
+
+
+export async function one_weeks_reminder({email, name}: EmailOptions) {
+  const templatePath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "views",
+    "one_week.ejs"
+  );
+
+  let verify: boolean;
+  try {
+    verify = await verifyTransporter();
+  } catch (error: unknown) {
+    console.log(error);
+    return { error: true, errorMessage: (error as Error).message };
+  }
+
+  if (!verify) return { error: true, errorMessage: "" };
+
+  let mailOptions;
+  try {
+    const template = await ejs.renderFile(templatePath, {
+      name: name,
+    });
+
+    mailOptions = {
+      from: {
+        name: "Coal City Half Marathon",
+        address: process.env.MAIL_USERNAME as string,
+      },
+      to: email,
+      subject: " REMINDER ONE WEEK BEFORE THE MARATHON",
+      html: template,
+    };
+    await sendMail(mailOptions);
+    return { error: false, errorMessage: "" };
+  } catch (error) {
+    return { error: true, errorMessage: (error as Error).message };
+  }
+}
+
+export async function three_days_reminder({email, name}: EmailOptions) {
+  const templatePath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "views",
+    "3_days.ejs"
+  );
+
+  let verify: boolean;
+  try {
+    verify = await verifyTransporter();
+  } catch (error: unknown) {
+    console.log(error);
+    return { error: true, errorMessage: (error as Error).message };
+  }
+
+  if (!verify) return { error: true, errorMessage: "" };
+
+  let mailOptions;
+  try {
+    const template = await ejs.renderFile(templatePath, {
+      name: name,
+    });
+
+    mailOptions = {
+      from: {
+        name: "Coal City Half Marathon",
+        address: process.env.MAIL_USERNAME as string,
+      },
+      to: email,
+      subject: "REMINDER THREE DAYS BEFORE THE MARATHON",
+      html: template,
+    };
+    await sendMail(mailOptions);
+    return { error: false, errorMessage: "" };
+  } catch (error) {
+    return { error: true, errorMessage: (error as Error).message };
+  }
+}
+
+
+export async function day_of_event_reminder({email, name}: EmailOptions) {
+  const templatePath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "views",
+    "final_day.ejs"
+  );
+
+  let verify: boolean;
+  try {
+    verify = await verifyTransporter();
+  } catch (error: unknown) {
+    console.log(error);
+    return { error: true, errorMessage: (error as Error).message };
+  }
+
+  if (!verify) return { error: true, errorMessage: "" };
+
+  let mailOptions;
+  try {
+    const template = await ejs.renderFile(templatePath, {
+      name: name,
+    });
+
+    mailOptions = {
+      from: {
+        name: "Coal City Half Marathon",
+        address: process.env.MAIL_USERNAME as string,
+      },
+      to: email,
+      subject: "REMINDER ON THE DAY OF THE MARATHON",
+      html: template,
+    };
+    await sendMail(mailOptions);
+    return { error: false, errorMessage: "" };
+  } catch (error) {
+    return { error: true, errorMessage: (error as Error).message };
+  }
+}

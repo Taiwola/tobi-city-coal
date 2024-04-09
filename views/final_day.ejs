@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* Define your CSS styles inline */
+      .bdy {
+        background-color: #262626;
+        padding: 21px 16px;
+        height: max-content;
+      }
+
+      .bdy-content {
+        display: flex;
+        flex-direction: column;
+        gap: 23px;
+      }
+
+      .bdy p,
+      .bdy ul {
+        font-family: "Darker Grotesque", sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: #ffffff;
+      }
+
+      .bdy h2 {
+        font-family: "Darker Grotesque", sans-serif;
+        font-size: 20px;
+        font-weight: 900;
+        color: #ffffff;
+      }
+
+      .bdy h1 {
+        font-family: "Darker Grotesque", sans-serif;
+        font-size: 24px;
+        font-weight: 900;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="main">
+      <div
+        style="
+          padding: 20px 20px;
+          background-color: #3a3a3a;
+          position: relative;
+          border: 1px solid blue;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 90%;
+        "
+      >
+        <div
+          class="bdy"
+          style="
+            background-color: #262626;
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            max-width: 70%;
+            margin: 0 auto;
+          "
+        >
+          <div class="bdy-content" style="display: block">
+            <div class="logo">
+              <img
+                src="https://res.cloudinary.com/dwl0pqzlx/image/upload/v1712586316/Frame_5_objfql.png"
+                alt=""
+              />
+            </div>
+            <h2
+              style="
+                font-family: 'Darker Grotesque', sans-serif;
+                font-size: 20px;
+                font-weight: 900;
+                color: #ffffff;
+              "
+            >
+            It's Race Day! Good Luck in the Coal City Marathon
+            </h2>
+
+            <h1
+              style="
+                font-family: 'Darker Grotesque', sans-serif;
+                font-size: 24px;
+                font-weight: 900;
+                color: #ffffff;
+              "
+            >
+              Dear <%= participant_name %>,
+            </h1>
+            <p
+              style="
+                font-family: 'Darker Grotesque', sans-serif;
+                font-size: 16px;
+                font-weight: 600;
+                color: #ffffff;
+              "
+            >
+            The day you've been waiting for has finally arrived – it's race day! On behalf of the Coal 
+            City Marathon Organizing Committee, we want to wish you the best of luck as you take 
+            on this incredible challenge. 
+            </p>
+
+            <div>
+                <ul
+                style="
+                  font-family: 'Darker Grotesque', sans-serif;
+                  font-size: 16px;
+                  font-weight: 600;
+                  color: #ffffff;
+                "
+              >
+                <li>Date: May 4th, 2024</li>
+                <li>Starting Point: Nnamdi Azikwe Stadium gate</li>
+                <li>
+                  Route Highlights: Zik Avenue, Nkpokiti Junction, National
+                  Library etc.
+                </li>
+                <li>Finish Line: Nnamdi Azikwe Stadium</li>
+              </ul>
+            </div>
+            <br />
+            <p
+              style="
+                font-family: 'Darker Grotesque', sans-serif;
+                font-size: 16px;
+                font-weight: 600;
+                color: #ffffff;
+              "
+            >
+            Trust in your training, believe in yourself, and enjoy every moment of the journey. We'll 
+            be cheering you on every step of the way!
+            </p>
+            <br />
+
+            <p 
+            style="
+            font-family: 'Darker Grotesque', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+          "
+            >
+            Go out there and give it your all!
+            </p>
+
+            <p
+              style="
+                font-family: 'Darker Grotesque', sans-serif;
+                font-size: 16px;
+                font-weight: 600;
+                color: #ffffff;
+              "
+            >
+              Warm Regards,<br />
+              Coal City Half Marathon Organizing Committee
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
