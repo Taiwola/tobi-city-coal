@@ -1,10 +1,10 @@
-import {Router} from "express";
+// import {Router} from "express";
 
-const router = Router();
+// const router = Router();
 
-import {sendFirstMail} from "../controller"
+// import {sendFirstMail} from "../controller"
 
-router.post("/sendFirstNewsletter", sendFirstMail);
+// router.post("/sendFirstNewsletter", sendFirstMail);
 
 
-export {router as newletterRouter};
+// export {router as newletterRouter};

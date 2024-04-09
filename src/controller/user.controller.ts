@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { getOneUserByEmail, create } from "../service/user.service";
 import { getPaymentLink } from "../service/payment.service";
+import { confirm_registration } from "../lib/mailer";
 
 // Register a user
 export const register = async (req: Request, res: Response) => {
@@ -38,6 +39,15 @@ export const register = async (req: Request, res: Response) => {
     // Create a google doc sheet for users that registered - sheet should be named registered.
 
     // DO IT HERE PLEASE!
+
+    // Email Confirmation
+    const { error, errorMessage } = await confirm_registration({ name, email });
+
+    if (error) {
+      console.log("error sending email");
+      console.log(errorMessage);
+      // Log to slack
+    }
 
     // Return success response when user is created and payment link is generated
     return res.status(200).json({

@@ -127,13 +127,20 @@ export const handleWebhookEvents = async (
     await update(payment);
 
     // Send Email to the user
-    const {error, errorMessage} = await transactionVerified( payload.customer.name, payload.customer.email, payload.amount, payload.payment_type);
+    const { error, errorMessage } = await transactionVerified(
+      payload.customer.fullName,
+      verify.data.customer.email,
+      verify.data.payment_type,
+      verify.data.flw_ref
+    );
 
     if (error) {
-      return errorMessage;
+      console.log("Error sending Payment confirmation email");
+      console.log(errorMessage);
+
+      // LOG TO SLACK
+      // return errorMessage;
     }
-
-
 
     // ADD TO GOOGLE DOCS - sheet should be named paid
   } catch (error) {

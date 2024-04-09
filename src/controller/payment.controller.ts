@@ -4,17 +4,16 @@ import { findOneByUser, handleWebhookEvents } from "../service/payment.service";
 
 // Webhook Handler
 export const flwWebhook = async (req: Request, res: Response) => {
-  console.log("flutter web hook");
   try {
     // Process the webhook payload
     const payload: IFlwData = req.body;
 
     // Send Flw back a response - This is done because flw needs a response ASAP
     res.status(200).end();
+    
     // Continue option tho
     // Get user email from the payload
     const email = payload.customer.email;
-
 
     // Find the user
     const user = await getOneUserByEmail(email);
