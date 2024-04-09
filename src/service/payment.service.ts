@@ -3,6 +3,7 @@ import axios, { AxiosError } from "axios";
 import PaymentModel from "../model/payment.model";
 import { Error } from "mongoose";
 import { transactionVerified } from "../lib/mailer";
+import { writeToSheetForPaid } from "../lib/spreadsheet.config";
 
 const config = {
   headers: {
@@ -143,6 +144,7 @@ export const handleWebhookEvents = async (
     }
 
     // ADD TO GOOGLE DOCS - sheet should be named paid
+    await writeToSheetForPaid([["name", "email", "payment_type", "flw_ref"], [payload.customer.fullName, verify.data.customer.email,  verify.data.payment_type, verify.data.flw_ref]], "paid");
   } catch (error) {
     console.log(error);
 

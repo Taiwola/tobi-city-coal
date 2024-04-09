@@ -2,6 +2,11 @@ import { Request, Response } from "express";
 import { getOneUserByEmail, create } from "../service/user.service";
 import { getPaymentLink } from "../service/payment.service";
 import { confirm_registration } from "../lib/mailer";
+import { writeToSheet } from "../lib/spreadsheet.config";
+
+
+
+
 
 // Register a user
 export const register = async (req: Request, res: Response) => {
@@ -37,6 +42,7 @@ export const register = async (req: Request, res: Response) => {
     const payment = await getPaymentLink(user);
 
     // Create a google doc sheet for users that registered - sheet should be named registered.
+    await writeToSheet([['Name', 'Email', 'Phone Number', 'State', 'Age', 'Gender', 'LGA', 'Term'],[name, email, phoneNumber, state, age, gender, lga, term]]);
 
     // DO IT HERE PLEASE!
 
