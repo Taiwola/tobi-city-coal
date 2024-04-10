@@ -4,6 +4,7 @@ import PaymentModel from "../model/payment.model";
 import { Error } from "mongoose";
 import { transactionVerified } from "../lib/mailer";
 import { writeToSheetForPaid } from "../lib/spreadsheet.config";
+import { slackApp } from "../config/slack.config";
 
 const config = {
   headers: {
@@ -90,9 +91,13 @@ export const verifyTransaction = async (id: number) => {
   } catch (error) {
     const err = error as AxiosError<IFlwError>;
     console.error(err.message);
+     // LOG TO SLACK
+     await slackApp.client.chat.postMessage({
+      token: process.env.SLACK_BOT_TOKEN as string,
+     channel: process.env.SLACK_CHANNEL as string,
+     text: err.message
+    })
     throw new Error(err.message);
-
-    // LOG TO SLACK
   }
 };
 
@@ -144,6 +149,11 @@ export const handleWebhookEvents = async (
       console.log(errorMessage);
 
       // LOG TO SLACK
+      await slackApp.client.chat.postMessage({
+        token: process.env.SLACK_BOT_TOKEN as string,
+       channel: process.env.SLACK_CHANNEL as string,
+       text: errorMessage
+      })
       // return errorMessage;
     }
 
@@ -164,5 +174,10 @@ export const handleWebhookEvents = async (
     console.log(error);
 
     // Log to slack - LOG ERROR TO SLACK
+    await slackApp.client.chat.postMessage({
+      token: process.env.SLACK_BOT_TOKEN as string,
+     channel: process.env.SLACK_CHANNEL as string,
+     text: error as string
+    })
   }
 };

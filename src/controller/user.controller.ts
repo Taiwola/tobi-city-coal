@@ -3,6 +3,7 @@ import { getOneUserByEmail, create } from "../service/user.service";
 import { getPaymentLink } from "../service/payment.service";
 import { confirm_registration } from "../lib/mailer";
 import { writeToSheet } from "../lib/spreadsheet.config";
+import {slackApp} from "../config/slack.config"
 
 // Register a user
 export const register = async (req: Request, res: Response) => {
@@ -60,6 +61,11 @@ export const register = async (req: Request, res: Response) => {
       console.log("error sending email");
       console.log(errorMessage);
       // Log to slack
+      await slackApp.client.chat.postMessage({
+              token: process.env.SLACK_BOT_TOKEN as string,
+              channel: process.env.SLACK_CHANNEL as string,
+              text: errorMessage
+            });
     }
 
     // Return success response when user is created and payment link is generated
