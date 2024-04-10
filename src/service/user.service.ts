@@ -23,3 +23,7 @@ export const getOneUserByEmail = async (
 export const create = async (user: Omit<User, "id">): Promise<User> => {
   return await UserModel.create(user);
 };
+
+export const findAll = async () => {
+  return await UserModel.find();
+}

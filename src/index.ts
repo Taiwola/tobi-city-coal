@@ -1,5 +1,7 @@
 import "dotenv/config";
 
+import runScheduler from "./schedule";
+
 import cors from "cors";
 import path from "path";
 import express from "express";
@@ -8,7 +10,6 @@ import helmet from "helmet";
 
 import { userRouter } from "./route/user.routes";
 import { paymentRouter } from "./route/payment.route";
-// import { newletterRouter } from "./route/newsletter.routes";
 
 try {
   mongoose.set("strictQuery", true);
@@ -33,10 +34,12 @@ app.use(
 );
 app.use(helmet());
 
-// app.use("/api/newsletter", newletterRouter);
 app.use("/api/users", userRouter);
 app.use("/api/payments", paymentRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
+
+  // Schedule emails
+  runScheduler();
 });

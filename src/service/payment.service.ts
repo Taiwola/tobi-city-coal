@@ -23,6 +23,10 @@ export const update = async (payment: Payment): Promise<Payment> => {
   return payment;
 };
 
+export const findAll = async (): Promise<Payment[]> => {
+  return await PaymentModel.find().populate("user");
+};
+
 export const findOneByUser = async (user: User): Promise<Payment | null> => {
   return await PaymentModel.findOne({ user: user.id }).populate("user");
 };
