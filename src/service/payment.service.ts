@@ -35,7 +35,7 @@ export const getPaymentLink = async (user: User) => {
       tx_ref: reference,
       amount: "2000",
       currency: "NGN",
-      redirect_url: "http://localhost:5412/",
+      redirect_url: "http://localhost:5173/#register",
       customer: {
         email: user.email,
         phonenumber: user.phoneNumber,
@@ -144,7 +144,18 @@ export const handleWebhookEvents = async (
     }
 
     // ADD TO GOOGLE DOCS - sheet should be named paid
-    await writeToSheetForPaid([["name", "email", "payment_type", "flw_ref"], [payload.customer.fullName, verify.data.customer.email,  verify.data.payment_type, verify.data.flw_ref]], "paid");
+    await writeToSheetForPaid(
+      [
+        ["name", "email", "payment_type", "flw_ref"],
+        [
+          payload.customer.fullName,
+          verify.data.customer.email,
+          verify.data.payment_type,
+          verify.data.flw_ref,
+        ],
+      ],
+      "paid"
+    );
   } catch (error) {
     console.log(error);
 

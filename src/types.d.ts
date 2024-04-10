@@ -1,3 +1,5 @@
+
+
 type User = {
   id: string;
   name: string;
@@ -20,6 +22,7 @@ type Payment = {
 
 type CustomError = {
   message: string;
+  success: boolean;
 };
 
 interface IFlutterWavePayment {

@@ -4,10 +4,6 @@ import { getPaymentLink } from "../service/payment.service";
 import { confirm_registration } from "../lib/mailer";
 import { writeToSheet } from "../lib/spreadsheet.config";
 
-
-
-
-
 // Register a user
 export const register = async (req: Request, res: Response) => {
   const { name, email, phoneNumber, state, age, gender, lga, term } = req.body;
@@ -18,6 +14,7 @@ export const register = async (req: Request, res: Response) => {
   // Return an error when user exist
   if (userExist) {
     return res.status(409).json({
+      success: false,
       message: `The user ${email.split("@")[0]} is already registered.`,
     });
   }
@@ -42,9 +39,19 @@ export const register = async (req: Request, res: Response) => {
     const payment = await getPaymentLink(user);
 
     // Create a google doc sheet for users that registered - sheet should be named registered.
-    await writeToSheet([['Name', 'Email', 'Phone Number', 'State', 'Age', 'Gender', 'LGA', 'Term'],[name, email, phoneNumber, state, age, gender, lga, term]]);
-
-    // DO IT HERE PLEASE!
+    await writeToSheet([
+      [
+        "Name",
+        "Email",
+        "Phone Number",
+        "State",
+        "Age",
+        "Gender",
+        "LGA",
+        "Term",
+      ],
+      [name, email, phoneNumber, state, age, gender, lga, term],
+    ]);
 
     // Email Confirmation
     const { error, errorMessage } = await confirm_registration({ name, email });
@@ -63,6 +70,8 @@ export const register = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log(error); // Log any errors for debugging
-    return res.status(500).json({ message: "Internal server error" }); // Return internal server error response
+    return res
+      .status(500)
+      .json({ message: "Internal server error", success: false }); // Return internal server error response
   }
 };

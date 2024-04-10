@@ -1,25 +1,6 @@
 import { RequestHandler } from "express";
 import schemas from "../schemas";
 
-interface ValidationError {
-  message: string;
-  type: string;
-}
-
-interface JoiError {
-  status: string;
-  error: {
-    original: unknown;
-    details: ValidationError[];
-    data: ValidationError;
-  };
-}
-
-interface CustomError {
-  status: string;
-  error: string;
-}
-
 const supportedMethods = ["post", "put", "patch", "delete"];
 
 const validationOptions = {
@@ -28,7 +9,7 @@ const validationOptions = {
   stripUnknown: false,
 };
 
-const schemaValidator = (path: string, useJoiError = true): RequestHandler => {
+const schemaValidator = (path: string): RequestHandler => {
   const schema = schemas[path];
 
   if (!schema) {
@@ -45,28 +26,13 @@ const schemaValidator = (path: string, useJoiError = true): RequestHandler => {
     const { error, value } = schema.validate(req.body, validationOptions);
 
     if (error) {
-      const customError: CustomError = {
-        status: "failed",
-        error: "Invalid request. Please review request and try again.",
-      };
+      const errors = error.details.map((item) => ({
+        success: false,
+        message: item.message,
+      }));
 
-      const details = error.details.map(
-        ({ message, type }: ValidationError) => ({
-          message: message.replace(/['"]/g, ""),
-          type,
-        })
-      );
-
-      const joiError: JoiError = {
-        status: "failed",
-        error: {
-          original: error._original,
-          data: details[0],
-          details,
-        },
-      };
-
-      return res.status(422).json(useJoiError ? joiError : customError);
+      // Send back the first error
+      return res.status(422).json(errors[0]);
     }
 
     // validation successful

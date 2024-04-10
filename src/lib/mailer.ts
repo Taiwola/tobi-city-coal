@@ -1,8 +1,4 @@
-import {
-  verifyTransporter,
-  sendMail,
-  transporter,
-} from "../config/mailer.config";
+import { verifyTransporter, sendMail } from "../config/mailer.config";
 import * as path from "path";
 import ejs from "ejs";
 
@@ -105,8 +101,7 @@ export async function transactionVerified(
   }
 }
 
-
-export async function two_weeks_reminder({email, name}: EmailOptions) {
+export async function two_weeks_reminder({ email, name }: EmailOptions) {
   const templatePath = path.join(
     __dirname,
     "..",
@@ -147,8 +142,7 @@ export async function two_weeks_reminder({email, name}: EmailOptions) {
   }
 }
 
-
-export async function one_weeks_reminder({email, name}: EmailOptions) {
+export async function one_weeks_reminder({ email, name }: EmailOptions) {
   const templatePath = path.join(
     __dirname,
     "..",
@@ -189,14 +183,8 @@ export async function one_weeks_reminder({email, name}: EmailOptions) {
   }
 }
 
-export async function three_days_reminder({email, name}: EmailOptions) {
-  const templatePath = path.join(
-    __dirname,
-    "..",
-    "..",
-    "views",
-    "3_days.ejs"
-  );
+export async function three_days_reminder({ email, name }: EmailOptions) {
+  const templatePath = path.join(__dirname, "..", "..", "views", "3_days.ejs");
 
   let verify: boolean;
   try {
@@ -230,8 +218,7 @@ export async function three_days_reminder({email, name}: EmailOptions) {
   }
 }
 
-
-export async function day_of_event_reminder({email, name}: EmailOptions) {
+export async function day_of_event_reminder({ email, name }: EmailOptions) {
   const templatePath = path.join(
     __dirname,
     "..",
