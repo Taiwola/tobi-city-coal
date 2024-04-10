@@ -13,10 +13,6 @@ const runScheduler = () => {
 
   const date = new Date(2024, 3, 10, 2, 25, 0);
 
-  schedule.scheduleJob("Poll Flutterwave", "*", async () => {
-   
-  })
-
   schedule.scheduleJob("Two weeks to marathon", date, async () => {
     const payments = await findAll();
 
