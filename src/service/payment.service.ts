@@ -24,6 +24,21 @@ export const update = async (payment: Payment): Promise<Payment> => {
   return payment;
 };
 
+export const updateStatus = async (payment: Payment): Promise<Payment | null> => {
+  // Update only specific fields of the payment document
+  const updatedPayment = await PaymentModel.updateOne(
+    { _id: payment.id }, 
+    { status: payment.status }
+  );
+
+  if (!updatedPayment) {
+    console.log('Failed to update payment');
+    return null;
+  }
+
+  return payment;
+};
+
 export const findAll = async (): Promise<Payment[]> => {
   return await PaymentModel.find().populate("user");
 };
@@ -146,7 +161,7 @@ export const handleWebhookEvents = async (
     console.log("payment: ",payment)
     // Transaction confirmed - give user benefits
     payment.status = verify.data.status;
-    await update(payment);
+    await updateStatus(payment);
 
 
     // Send Email to the user
