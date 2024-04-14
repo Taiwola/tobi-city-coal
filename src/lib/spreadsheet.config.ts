@@ -1,7 +1,8 @@
 import {google} from "googleapis";
+import * as path from "path"; 
 
 const auth = new google.auth.GoogleAuth({
-    keyFile: "./google_secret.json",
+    keyFile: path.join(__dirname, 'google_sheet.json'),
     scopes: ["https://www.googleapis.com/auth/spreadsheets"]
 });
 
