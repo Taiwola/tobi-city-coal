@@ -14,11 +14,12 @@ export const flwWebhook = async (req: Request, res: Response) => {
 
     console.log("pay", payload);
     
-    console.log("payload", payload.customer);
+    console.log("payload", payload.data.customer);
+    console.log("payload_data", payload.data.customer.email)
 
     // Continue operation
     // Get user email from the payload
-    const email = payload.customer.email;
+    const email = payload.data.customer.email;
     console.log(email);
 
     // Find the user

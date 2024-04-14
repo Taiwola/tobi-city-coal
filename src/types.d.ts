@@ -34,7 +34,10 @@ interface IFlutterWavePayment {
 }
 
 interface IFlwData {
-  id: number;
+  event_type: string,
+  data: {
+
+    id: number;
   txRef: string;
   flwRef: string;
   amount: number;
@@ -62,6 +65,9 @@ interface IFlwData {
     type: string;
     expiry: string;
   };
+
+  }
+  
 }
 
 interface IFlutterwavePaymentWebhook {
