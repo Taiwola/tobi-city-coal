@@ -19,7 +19,7 @@ export const create = async (
 };
 
 export const update = async (payment: Payment): Promise<Payment> => {
-  await PaymentModel.updateOne({ id: payment.id }, { status: payment.status });
+  await PaymentModel.updateOne({ id: payment.id }, { ...payment });
 
   return payment;
 };
@@ -123,6 +123,13 @@ export const handleWebhookEvents = async (
     if (payload.txRef !== payment.reference) {
       // LOG TO SLACK - something went wrong with the reference
       console.log("something went wrong with the reference");
+      slackApp.client.chat.postMessage({
+        token: process.env.SLACK_BOT_TOKEN as string,
+        channel: process.env.SLACK_CHANNEL as string,
+        text:
+          "Webhook Payload reference is not the same as payment reference for customer: " +
+          payload.customer.email,
+      });
       return;
     }
 

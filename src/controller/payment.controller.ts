@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { getOneUserByEmail } from "../service/user.service";
 import { findOneByUser, handleWebhookEvents } from "../service/payment.service";
+import { slackApp } from "../config/slack.config";
 
 // Webhook Handler
 export const flwWebhook = async (req: Request, res: Response) => {
@@ -8,10 +9,10 @@ export const flwWebhook = async (req: Request, res: Response) => {
     // Process the webhook payload
     const payload: IFlwData = req.body;
 
-    // Send Flw back a response - This is done because flw needs a response ASAP
+    // Acknowledge webhook from flutterwave - This is done because flw needs a response ASAP
     res.status(200).end();
     
-    // Continue option tho
+    // Continue operation
     // Get user email from the payload
     const email = payload.customer.email;
 
@@ -20,6 +21,11 @@ export const flwWebhook = async (req: Request, res: Response) => {
 
     if (!user) {
       // User not found, something happened during registration - LOG INFO TO SLACK
+      slackApp.client.chat.postMessage({
+        token: process.env.SLACK_BOT_TOKEN as string,
+        channel: process.env.SLACK_CHANNEL as string,
+        text: "Web hook cant find registered user with email: " + email,
+      });
 
       // End the process
       return;
@@ -30,6 +36,11 @@ export const flwWebhook = async (req: Request, res: Response) => {
 
     if (!payment) {
       // Payment not found, something happened during registration - LOG INFO TO SLACK
+      slackApp.client.chat.postMessage({
+        token: process.env.SLACK_BOT_TOKEN as string,
+        channel: process.env.SLACK_CHANNEL as string,
+        text: "Web hook cant find registered user payment info for user with email: " + email,
+      });
 
       // End the process
       return;
