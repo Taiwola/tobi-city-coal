@@ -36,7 +36,6 @@ interface IFlutterWavePayment {
 interface IFlwData {
   event_type: string,
   data: {
-
     id: number;
   txRef: string;
   flwRef: string;

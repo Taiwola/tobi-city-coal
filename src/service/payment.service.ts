@@ -120,7 +120,7 @@ export const handleWebhookEvents = async (
    */
   try {
     // Verify refernce
-    if (payload.txRef !== payment.reference) {
+    if (payload.data.txRef !== payment.reference) {
       // LOG TO SLACK - something went wrong with the reference
       console.log("something went wrong with the reference");
       slackApp.client.chat.postMessage({
@@ -128,7 +128,7 @@ export const handleWebhookEvents = async (
         channel: process.env.SLACK_CHANNEL as string,
         text:
           "Webhook Payload reference is not the same as payment reference for customer: " +
-          payload.customer.email,
+          payload.data.customer.email,
       });
       return;
     }
@@ -137,7 +137,7 @@ export const handleWebhookEvents = async (
     if (payment.status === "successful") return; // webhook is running multiple times
 
     // 2. verify payment by re-query
-    const verify = await verifyTransaction(payload.id);
+    const verify = await verifyTransaction(payload.data.id);
 
     if (!verify?.data?.status) return; // Transaction not found
 
@@ -147,7 +147,7 @@ export const handleWebhookEvents = async (
 
     // Send Email to the user
     const { error, errorMessage } = await transactionVerified(
-      payload.customer.fullName,
+      payload.data.customer.fullName,
       verify.data.customer.email,
       verify.data.payment_type,
       verify.data.flw_ref
@@ -171,7 +171,7 @@ export const handleWebhookEvents = async (
       [
         ["name", "email", "payment_type", "flw_ref"],
         [
-          payload.customer.fullName,
+          payload.data.customer.fullName,
           verify.data.customer.email,
           verify.data.payment_type,
           verify.data.flw_ref,
