@@ -6,6 +6,8 @@ import { slackApp } from "../config/slack.config";
 // Webhook Handler
 export const flwWebhook = async (req: Request, res: Response) => {
   try {
+    console.log(req.body);
+    
     // Process the webhook payload
     const payload: IFlwData = req.body;
 
