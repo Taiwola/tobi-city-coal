@@ -6,14 +6,14 @@ import { slackApp } from "../config/slack.config";
 // Webhook Handler
 export const flwWebhook = async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
-    
     // Process the webhook payload
     const payload: IFlwData = req.body;
 
     // Acknowledge webhook from flutterwave - This is done because flw needs a response ASAP
     res.status(200).end();
-    
+
+    console.log("payload", payload.customer);
+
     // Continue operation
     // Get user email from the payload
     const email = payload.customer.email;
@@ -41,7 +41,9 @@ export const flwWebhook = async (req: Request, res: Response) => {
       slackApp.client.chat.postMessage({
         token: process.env.SLACK_BOT_TOKEN as string,
         channel: process.env.SLACK_CHANNEL as string,
-        text: "Web hook cant find registered user payment info for user with email: " + email,
+        text:
+          "Web hook cant find registered user payment info for user with email: " +
+          email,
       });
 
       // End the process
