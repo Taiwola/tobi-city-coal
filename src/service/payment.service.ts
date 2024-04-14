@@ -141,12 +141,16 @@ export const handleWebhookEvents = async (
 
     // 2. verify payment by re-query
     const verify = await verifyTransaction(payload.data.id);
+    console.log("Payload: ", payload);
 
     if (!verify?.data?.status) return; // Transaction not found
 
+    console.log("Verify: ", verify?.data?.status)
     // Transaction confirmed - give user benefits
     payment.status = verify.data.status;
     await update(payment);
+
+    console.log("payment: ",payment)
 
     // Send Email to the user
     const { error, errorMessage } = await transactionVerified(
