@@ -119,9 +119,6 @@ export const handleWebhookEvents = async (
    *
    */
   try {
-    console.log("payload",payload.data.tx_ref);
-    console.log(payload);
-    console.log("payment",payment.reference);
     // Verify refernce
     if (payload.data.tx_ref !== payment.reference) {
       // LOG TO SLACK - something went wrong with the reference
@@ -146,11 +143,11 @@ export const handleWebhookEvents = async (
     if (!verify?.data?.status) return; // Transaction not found
 
     console.log("Verify: ", verify?.data?.status)
+    console.log("payment: ",payment)
     // Transaction confirmed - give user benefits
     payment.status = verify.data.status;
     await update(payment);
 
-    console.log("payment: ",payment)
 
     // Send Email to the user
     const { error, errorMessage } = await transactionVerified(
