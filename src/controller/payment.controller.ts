@@ -12,19 +12,12 @@ export const flwWebhook = async (req: Request, res: Response) => {
     // Acknowledge webhook from flutterwave - This is done because flw needs a response ASAP
     res.status(200).end();
 
-    console.log("pay", payload);
-    
-    console.log("payload", payload.data.customer);
-    console.log("payload_data", payload.data.customer.email)
-
     // Continue operation
     // Get user email from the payload
     const email = payload.data.customer.email;
-    console.log(email);
 
     // Find the user
     const user = await getOneUserByEmail(email);
-    console.log(user)
 
     if (!user) {
       // User not found, something happened during registration - LOG INFO TO SLACK
@@ -40,7 +33,6 @@ export const flwWebhook = async (req: Request, res: Response) => {
 
     // Find the user payment object
     const payment = await findOneByUser(user);
-    console.log(payment);
 
     if (!payment) {
       // Payment not found, something happened during registration - LOG INFO TO SLACK

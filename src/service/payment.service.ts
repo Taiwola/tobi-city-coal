@@ -119,6 +119,8 @@ export const handleWebhookEvents = async (
    *
    */
   try {
+    console.log("payload",payload.data.txRef);
+    console.log("payment",payment.reference);
     // Verify refernce
     if (payload.data.txRef !== payment.reference) {
       // LOG TO SLACK - something went wrong with the reference
