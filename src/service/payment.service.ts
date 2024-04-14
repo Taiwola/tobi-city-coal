@@ -120,6 +120,7 @@ export const handleWebhookEvents = async (
    */
   try {
     console.log("payload",payload.data.txRef);
+    console.log(payload);
     console.log("payment",payment.reference);
     // Verify refernce
     if (payload.data.txRef !== payment.reference) {
