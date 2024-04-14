@@ -12,6 +12,8 @@ export const flwWebhook = async (req: Request, res: Response) => {
     // Acknowledge webhook from flutterwave - This is done because flw needs a response ASAP
     res.status(200).end();
 
+    console.log("pay", payload);
+    
     console.log("payload", payload.customer);
 
     // Continue operation
