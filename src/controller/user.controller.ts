@@ -8,8 +8,8 @@ import { slackApp } from "../config/slack.config";
 // Register a user
 export const register = async (req: Request, res: Response) => {
   const { name, email, phoneNumber, state, age, gender, lga, term } = req.body;
+
   const clientUrl = req.get('Referer');
-  console.log('Client URL:', clientUrl);
 
   // Check if the user exist
   const userExist = await getOneUserByEmail(email);
@@ -39,7 +39,7 @@ export const register = async (req: Request, res: Response) => {
     const user = await create(foundUser);
 
     // Initiate payment
-    const payment = await getPaymentLink(user);
+    const payment = await getPaymentLink(user, clientUrl);
 
     // Create a google doc sheet for users that registered - sheet should be named registered.
     await writeToSheet([

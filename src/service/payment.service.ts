@@ -32,7 +32,7 @@ export const findOneByUser = async (user: User): Promise<Payment | null> => {
   return await PaymentModel.findOne({ user: user.id }).populate("user");
 };
 
-export const getPaymentLink = async (user: User) => {
+export const getPaymentLink = async (user: User, redirectUrl?: string) => {
   const reference = uuidv4();
 
   try {
@@ -40,7 +40,9 @@ export const getPaymentLink = async (user: User) => {
       tx_ref: reference,
       amount: "2000",
       currency: "NGN",
-      redirect_url: "http://localhost:5173/#register",
+      redirect_url: redirectUrl
+        ? `${redirectUrl}#register`
+        : "http://localhost:5173/#register",
       customer: {
         email: user.email,
         phonenumber: user.phoneNumber,
@@ -91,12 +93,12 @@ export const verifyTransaction = async (id: number) => {
   } catch (error) {
     const err = error as AxiosError<IFlwError>;
     console.error(err.message);
-     // LOG TO SLACK
-     await slackApp.client.chat.postMessage({
+    // LOG TO SLACK
+    await slackApp.client.chat.postMessage({
       token: process.env.SLACK_BOT_TOKEN as string,
-     channel: process.env.SLACK_CHANNEL as string,
-     text: err.message
-    })
+      channel: process.env.SLACK_CHANNEL as string,
+      text: err.message,
+    });
     throw new Error(err.message);
   }
 };
@@ -151,9 +153,9 @@ export const handleWebhookEvents = async (
       // LOG TO SLACK
       await slackApp.client.chat.postMessage({
         token: process.env.SLACK_BOT_TOKEN as string,
-       channel: process.env.SLACK_CHANNEL as string,
-       text: errorMessage
-      })
+        channel: process.env.SLACK_CHANNEL as string,
+        text: errorMessage,
+      });
       // return errorMessage;
     }
 
@@ -176,8 +178,8 @@ export const handleWebhookEvents = async (
     // Log to slack - LOG ERROR TO SLACK
     await slackApp.client.chat.postMessage({
       token: process.env.SLACK_BOT_TOKEN as string,
-     channel: process.env.SLACK_CHANNEL as string,
-     text: error as string
-    })
+      channel: process.env.SLACK_CHANNEL as string,
+      text: error as string,
+    });
   }
 };
