@@ -69,6 +69,41 @@ interface IFlwData {
   
 }
 
+interface PayloadInterface {
+  event_type: string,
+  data: {
+    id: number;
+    tx_ref: string;
+  flwRef: string;
+  amount: number;
+  currency: "NGN" | "USD";
+  appfee: number;
+  merchantfee: number;
+  IP: string;
+  created_at: string;
+  customer: {
+    id: number;
+    fullName: string;
+    phone_number: string | null;
+    email: string;
+    created_at: string;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string;
+    AccountId: number;
+  };
+  card: {
+    first_6digits: string;
+    last_4digits: string;
+    issuer: string;
+    country: string;
+    type: string;
+    expiry: string;
+  };
+
+  }
+}
+
 interface IFlutterwavePaymentWebhook {
   event: "charge.completed";
   data: IFlwData;

@@ -105,7 +105,7 @@ export const verifyTransaction = async (id: number) => {
 
 // Handle fluttwrwave webhook
 export const handleWebhookEvents = async (
-  payload: IFlwData,
+  payload: PayloadInterface,
   payment: Payment
 ) => {
   /**
@@ -119,11 +119,11 @@ export const handleWebhookEvents = async (
    *
    */
   try {
-    console.log("payload",payload.data.txRef);
+    console.log("payload",payload.data.tx_ref);
     console.log(payload);
     console.log("payment",payment.reference);
     // Verify refernce
-    if (payload.data.txRef !== payment.reference) {
+    if (payload.data.tx_ref !== payment.reference) {
       // LOG TO SLACK - something went wrong with the reference
       console.log("something went wrong with the reference");
       slackApp.client.chat.postMessage({

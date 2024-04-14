@@ -7,7 +7,7 @@ import { slackApp } from "../config/slack.config";
 export const flwWebhook = async (req: Request, res: Response) => {
   try {
     // Process the webhook payload
-    const payload: IFlwData = req.body;
+    const payload: PayloadInterface = req.body;
 
     // Acknowledge webhook from flutterwave - This is done because flw needs a response ASAP
     res.status(200).end();
