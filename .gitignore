@@ -3,3 +3,4 @@ node_modules
 dist
 client_secret.json
 google_secret.json
+google_sheet.json
