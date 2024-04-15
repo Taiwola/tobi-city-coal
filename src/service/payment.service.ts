@@ -72,11 +72,15 @@ export const getPaymentLink = async (user: User, redirectUrl?: string) => {
       },
     };
 
+    console.log("before response");
+
     const response = await axios.post<IFlutterWavePayment>(
       "https://api.flutterwave.com/v3/payments",
       data,
       config
     );
+
+    console.log(response);
 
     // Create Payment model after successful payment
     const payment = new PaymentModel({
