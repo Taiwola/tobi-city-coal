@@ -170,6 +170,8 @@ export const handleWebhookEvents = async (
       verify.data.flw_ref
     );
 
+    console.log(payload.data);
+
     console.log("Payment service",payload.data.customer.fullName);
 
     if (error) {
