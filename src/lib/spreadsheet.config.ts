@@ -80,6 +80,21 @@ export async function writeToSheetForPaid(values: any[][], newSheetTitle: string
     };
 
     try {
+
+        const sheetsInfo = await sheets.spreadsheets.get({
+            spreadsheetId: spreadsheetId,
+            fields: 'sheets(properties(sheetId,title))'
+        });
+
+        // Find the sheet with title 'Sheet2'
+const sheet2 = sheetsInfo.data.sheets?.find(sheet => sheet.properties?.title === 'Sheet2');
+
+if (!sheet2) {
+    throw new Error();
+}
+
+    const sheet2Id = sheet2.properties?.sheetId;
+
         // Change the sheet title
         await sheets.spreadsheets.batchUpdate({
             spreadsheetId: spreadsheetId,
@@ -88,7 +103,7 @@ export async function writeToSheetForPaid(values: any[][], newSheetTitle: string
                     {
                         updateSheetProperties: {
                             properties: {
-                                // sheetId: 1, // Assuming Sheet2 is the second sheet
+                                sheetId: sheet2Id, // Assuming Sheet2 is the second sheet
                                 title: newSheetTitle,
                             },
                             fields: 'title'
@@ -136,70 +151,8 @@ export async function writeToSheetForPaid(values: any[][], newSheetTitle: string
 
 
 
-// try {
-//     console.log("New sheet title1: ", newSheetTitle);
-//     // Check if the sheet already exists
-//     const sheetExistsResponse = await sheets.spreadsheets.values.get({
-//         spreadsheetId: spreadsheetId,
-//         ranges: [newSheetTitle],
-//     });
-
-//     console.log("New sheet title2: ", newSheetTitle);
-//     // If the sheet exists, get its properties
-//     let sheetId;
-//     if (sheetExistsResponse && sheetExistsResponse.data.sheets && sheetExistsResponse.data.sheets.length > 0) {
-//         sheetId = sheetExistsResponse?.data?.sheets[0].properties?.sheetId;
-//     } else {
-//         // Create a new sheet if it doesn't exist
-//         const batchUpdateResponse = await sheets.spreadsheets.batchUpdate({
-//             spreadsheetId: spreadsheetId,
-//             requestBody: {
-//                 requests: [
-//                     {
-//                         addSheet: {
-//                             properties: {
-//                                 sheetId: 1,
-//                                 title: newSheetTitle,
-//                             }
-//                         }
-//                     }
-//                 ]
-//             }
-//         });
-//         sheetId = batchUpdateResponse?.data?.replies?.[0]?.addSheet?.properties?.sheetId;
-//     }
 
 
-//     console.log("New sheet title3: ", newSheetTitle);
-//     const response = await sheets.spreadsheets.values.get({
-//         spreadsheetId: spreadsheetId,
-//         range: `${newSheetTitle}!A1:A`, // Assuming column A contains continuous data
-//     });
-//     const headersExist = response.data.values && response.data.values.length > 0;
-    
-//     // Remove headers from values if they exist
-//     if (headersExist) {
-//         values.shift(); // Remove the first element (headers) from the values array
-//     }
-    
-//     // Determine the range to update
-//     const numRows = response.data.values ? response.data.values.length : 0;
-//     const range = `${newSheetTitle}!A${headersExist ? numRows + 1 : 1}`;
 
-    
-
-//     // Update values in the determined sheet
-//     const res = await sheets.spreadsheets.values.update({
-//         spreadsheetId: spreadsheetId,
-//         range: range,
-//         valueInputOption: valueInputOption,
-//         requestBody: { values }
-//     });
-
-//     return res;
-// } catch (error) {
-//     console.log(error);
-//     return error;
-// }
 
 
