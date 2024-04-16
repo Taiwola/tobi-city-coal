@@ -1,7 +1,7 @@
 import {google} from "googleapis";
 import * as path from "path"; 
 
-const secretFolderPath = path.resolve(__dirname, '..', '..', '..','secrets');
+const secretFolderPath = path.resolve(__dirname, 'etc', 'secrets');
 
 const auth = new google.auth.GoogleAuth({
     keyFile: path.join(secretFolderPath, 'google_sheet.json'),
