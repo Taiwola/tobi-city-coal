@@ -170,8 +170,6 @@ export const handleWebhookEvents = async (
       verify.data.flw_ref
     );
 
-    console.log(payload.data);
-
 
     if (error) {
       console.log("Error sending Payment confirmation email");

@@ -72,7 +72,6 @@ export async function writeToSheet(values: string[][]) {
 
 
 export async function writeToSheetForPaid(values: any[][], newSheetTitle: string) {
-    console.log("writeToPaid", newSheetTitle);
     const spreadsheetId = process.env.SPREAD_SHEET_ID as string;
     const valueInputOption = "USER_ENTERED";
 
@@ -108,6 +107,7 @@ export async function writeToSheetForPaid(values: any[][], newSheetTitle: string
         }
 
 
+        console.log("New sheet title:", newSheetTitle);
         const response = await sheets.spreadsheets.values.get({
             spreadsheetId: spreadsheetId,
             range: `${newSheetTitle}!A1:A`, // Assuming column A contains continuous data

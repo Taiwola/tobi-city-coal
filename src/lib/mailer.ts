@@ -58,8 +58,6 @@ export async function transactionVerified(
   payment_type: string,
   transaction_id: string
 ) {
-
-  console.log("From verifyTransaction: ", reciever_email, reciever_name, payment_type, transaction_id)
   const templatePath = path.join(
     __dirname,
     "..",
