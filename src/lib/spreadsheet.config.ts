@@ -81,22 +81,22 @@ export async function writeToSheetForPaid(values: any[][], newSheetTitle: string
 
     try {
         // Change the sheet title
-        // await sheets.spreadsheets.batchUpdate({
-        //     spreadsheetId: spreadsheetId,
-        //     requestBody: {
-        //         requests: [
-        //             {
-        //                 updateSheetProperties: {
-        //                     properties: {
-        //                         sheetId: 1, // Assuming Sheet2 is the second sheet
-        //                         title: newSheetTitle,
-        //                     },
-        //                     fields: 'title'
-        //                 }
-        //             }
-        //         ]
-        //     }
-        // });
+        await sheets.spreadsheets.batchUpdate({
+            spreadsheetId: spreadsheetId,
+            requestBody: {
+                requests: [
+                    {
+                        updateSheetProperties: {
+                            properties: {
+                                // sheetId: 1, // Assuming Sheet2 is the second sheet
+                                title: newSheetTitle,
+                            },
+                            fields: 'title'
+                        }
+                    }
+                ]
+            }
+        });
 
         const response = await sheets.spreadsheets.values.get({
             spreadsheetId: spreadsheetId,
