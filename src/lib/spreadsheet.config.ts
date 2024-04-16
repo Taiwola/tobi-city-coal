@@ -76,12 +76,14 @@ export async function writeToSheetForPaid(values: any[][], newSheetTitle: string
     const valueInputOption = "USER_ENTERED";
 
     try {
+        console.log("New sheet title1: ", newSheetTitle);
         // Check if the sheet already exists
         const sheetExistsResponse = await sheets.spreadsheets.get({
             spreadsheetId: spreadsheetId,
             ranges: [newSheetTitle],
         });
 
+        console.log("New sheet title2: ", newSheetTitle);
         // If the sheet exists, get its properties
         let sheetId;
         if (sheetExistsResponse && sheetExistsResponse.data.sheets && sheetExistsResponse.data.sheets.length > 0) {
@@ -107,7 +109,7 @@ export async function writeToSheetForPaid(values: any[][], newSheetTitle: string
         }
 
 
-        console.log("New sheet title:", newSheetTitle);
+        console.log("New sheet title3: ", newSheetTitle);
         const response = await sheets.spreadsheets.values.get({
             spreadsheetId: spreadsheetId,
             range: `${newSheetTitle}!A1:A`, // Assuming column A contains continuous data
