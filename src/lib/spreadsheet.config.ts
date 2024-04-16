@@ -74,72 +74,105 @@ export async function writeToSheet(values: string[][]) {
 export async function writeToSheetForPaid(values: any[][], newSheetTitle: string) {
     const spreadsheetId = process.env.SPREAD_SHEET_ID as string;
     const valueInputOption = "USER_ENTERED";
-
+  
     try {
-        console.log("New sheet title1: ", newSheetTitle);
-        // Check if the sheet already exists
-        const sheetExistsResponse = await sheets.spreadsheets.get({
-            spreadsheetId: spreadsheetId,
-            ranges: [newSheetTitle],
-        });
-
-        console.log("New sheet title2: ", newSheetTitle);
-        // If the sheet exists, get its properties
-        let sheetId;
-        if (sheetExistsResponse && sheetExistsResponse.data.sheets && sheetExistsResponse.data.sheets.length > 0) {
-            sheetId = sheetExistsResponse?.data?.sheets[0].properties?.sheetId;
-        } else {
-            // Create a new sheet if it doesn't exist
-            const batchUpdateResponse = await sheets.spreadsheets.batchUpdate({
-                spreadsheetId: spreadsheetId,
-                requestBody: {
-                    requests: [
-                        {
-                            addSheet: {
-                                properties: {
-                                    sheetId: 1,
-                                    title: newSheetTitle,
-                                }
-                            }
-                        }
-                    ]
-                }
-            });
-            sheetId = batchUpdateResponse?.data?.replies?.[0]?.addSheet?.properties?.sheetId;
-        }
-
-
-        console.log("New sheet title3: ", newSheetTitle);
-        const response = await sheets.spreadsheets.values.get({
-            spreadsheetId: spreadsheetId,
-            range: `${newSheetTitle}!A1:A`, // Assuming column A contains continuous data
-        });
-        const headersExist = response.data.values && response.data.values.length > 0;
-        
-        // Remove headers from values if they exist
-        if (headersExist) {
-            values.shift(); // Remove the first element (headers) from the values array
-        }
-        
-        // Determine the range to update
-        const numRows = response.data.values ? response.data.values.length : 0;
-        const range = `${newSheetTitle}!A${headersExist ? numRows + 1 : 1}`;
-
-        
-
-        // Update values in the determined sheet
-        const res = await sheets.spreadsheets.values.update({
-            spreadsheetId: spreadsheetId,
-            range: range,
-            valueInputOption: valueInputOption,
-            requestBody: { values }
-        });
-
-        return res;
+      const resource = {
+        values,
+      };
+  
+      await sheets.spreadsheets.values.append({
+        spreadsheetId,
+        range: `${newSheetTitle}!A1`, // Assuming data starts at A1 in the new sheet
+        valueInputOption,
+        requestBody: resource,
+      });
+  
+      // Removed unnecessary get request
+  
+      // Assuming data doesn't include headers (optional: adjust if needed)
+      const range = `${newSheetTitle}!A1`; // Assuming data starts at A1
+  
+      // Update values in the new sheet
+      const res = await sheets.spreadsheets.values.update({
+        spreadsheetId: spreadsheetId,
+        range: range,
+        valueInputOption: valueInputOption,
+        requestBody: resource,
+      });
+  
+      return res;
     } catch (error) {
-        console.log(error);
-        return error;
+      return error;
     }
-}
+  }
+  
+
+
+
+// try {
+//     console.log("New sheet title1: ", newSheetTitle);
+//     // Check if the sheet already exists
+//     const sheetExistsResponse = await sheets.spreadsheets.values.get({
+//         spreadsheetId: spreadsheetId,
+//         ranges: [newSheetTitle],
+//     });
+
+//     console.log("New sheet title2: ", newSheetTitle);
+//     // If the sheet exists, get its properties
+//     let sheetId;
+//     if (sheetExistsResponse && sheetExistsResponse.data.sheets && sheetExistsResponse.data.sheets.length > 0) {
+//         sheetId = sheetExistsResponse?.data?.sheets[0].properties?.sheetId;
+//     } else {
+//         // Create a new sheet if it doesn't exist
+//         const batchUpdateResponse = await sheets.spreadsheets.batchUpdate({
+//             spreadsheetId: spreadsheetId,
+//             requestBody: {
+//                 requests: [
+//                     {
+//                         addSheet: {
+//                             properties: {
+//                                 sheetId: 1,
+//                                 title: newSheetTitle,
+//                             }
+//                         }
+//                     }
+//                 ]
+//             }
+//         });
+//         sheetId = batchUpdateResponse?.data?.replies?.[0]?.addSheet?.properties?.sheetId;
+//     }
+
+
+//     console.log("New sheet title3: ", newSheetTitle);
+//     const response = await sheets.spreadsheets.values.get({
+//         spreadsheetId: spreadsheetId,
+//         range: `${newSheetTitle}!A1:A`, // Assuming column A contains continuous data
+//     });
+//     const headersExist = response.data.values && response.data.values.length > 0;
+    
+//     // Remove headers from values if they exist
+//     if (headersExist) {
+//         values.shift(); // Remove the first element (headers) from the values array
+//     }
+    
+//     // Determine the range to update
+//     const numRows = response.data.values ? response.data.values.length : 0;
+//     const range = `${newSheetTitle}!A${headersExist ? numRows + 1 : 1}`;
+
+    
+
+//     // Update values in the determined sheet
+//     const res = await sheets.spreadsheets.values.update({
+//         spreadsheetId: spreadsheetId,
+//         range: range,
+//         valueInputOption: valueInputOption,
+//         requestBody: { values }
+//     });
+
+//     return res;
+// } catch (error) {
+//     console.log(error);
+//     return error;
+// }
 
 
