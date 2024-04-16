@@ -118,8 +118,6 @@ if (!sheet2) {
             range: `${newSheetTitle}!A1:A`, // Assuming column A contains continuous data
         });
 
-        console.log(response)
-
         const headersExist = response.data.values && response.data.values.length > 0;
 
         // Remove headers from values if they exist
