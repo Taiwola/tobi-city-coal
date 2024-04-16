@@ -83,7 +83,7 @@ interface PayloadInterface {
   created_at: string;
   customer: {
     id: number;
-    fullName: string;
+    name: string;
     phone_number: string | null;
     email: string;
     created_at: string;

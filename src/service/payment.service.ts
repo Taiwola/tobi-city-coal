@@ -164,7 +164,7 @@ export const handleWebhookEvents = async (
 
     // Send Email to the user
     const { error, errorMessage } = await transactionVerified(
-      payload.data.customer.fullName,
+      payload.data.customer.name,
       verify.data.customer.email,
       verify.data.payment_type,
       verify.data.flw_ref
@@ -172,7 +172,6 @@ export const handleWebhookEvents = async (
 
     console.log(payload.data);
 
-    console.log("Payment service",payload.data.customer.fullName);
 
     if (error) {
       console.log("Error sending Payment confirmation email");
@@ -192,7 +191,7 @@ export const handleWebhookEvents = async (
       [
         ["name", "email", "payment_type", "flw_ref"],
         [
-          payload.data.customer.fullName,
+          payload.data.customer.name,
           verify.data.customer.email,
           verify.data.payment_type,
           verify.data.flw_ref,
