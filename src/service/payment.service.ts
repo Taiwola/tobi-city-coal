@@ -72,6 +72,7 @@ export const getPaymentLink = async (user: User, redirectUrl?: string) => {
       },
     };
 
+
     const response = await axios.post<IFlutterWavePayment>(
       "https://api.flutterwave.com/v3/payments",
       data,
@@ -168,6 +169,8 @@ export const handleWebhookEvents = async (
       verify.data.payment_type,
       verify.data.flw_ref
     );
+
+    console.log("Payment service",payload.data.customer.fullName);
 
     if (error) {
       console.log("Error sending Payment confirmation email");
