@@ -89,29 +89,29 @@ export async function writeToSheetForPaid(values: any[][], newSheetTitle: string
         // Find the sheet with title 'Sheet2'
 const sheet2 = sheetsInfo.data.sheets?.find(sheet => sheet.properties?.title === 'Sheet2');
 
-if (!sheet2) {
-    throw new Error();
-}
-
+if (sheet2) {
     const sheet2Id = sheet2.properties?.sheetId;
 
-        // Change the sheet title
-        await sheets.spreadsheets.batchUpdate({
-            spreadsheetId: spreadsheetId,
-            requestBody: {
-                requests: [
-                    {
-                        updateSheetProperties: {
-                            properties: {
-                                sheetId: sheet2Id, // Assuming Sheet2 is the second sheet
-                                title: newSheetTitle,
-                            },
-                            fields: 'title'
-                        }
+    // Change the sheet title
+    await sheets.spreadsheets.batchUpdate({
+        spreadsheetId: spreadsheetId,
+        requestBody: {
+            requests: [
+                {
+                    updateSheetProperties: {
+                        properties: {
+                            sheetId: sheet2Id, // Assuming Sheet2 is the second sheet
+                            title: newSheetTitle,
+                        },
+                        fields: 'title'
                     }
-                ]
-            }
-        });
+                }
+            ]
+        }
+    });
+}
+
+   
 
         const response = await sheets.spreadsheets.values.get({
             spreadsheetId: spreadsheetId,
