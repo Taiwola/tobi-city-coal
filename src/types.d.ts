@@ -146,3 +146,25 @@ interface IFlwError {
   message: string;
   data: null;
 }
+
+
+interface PaystarkInitialize {
+ data: {
+  status: boolean,
+  message: string,
+  data: {
+    authorization_url: string,
+    access_code: string,
+    reference: string
+  }
+
+ } 
+}
+
+interface PaystackInitializeResponse {
+  data: {
+    authorization_url: string;
+    access_code: string;
+    reference: string;
+  };
+}

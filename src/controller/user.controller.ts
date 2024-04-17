@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getOneUserByEmail, create } from "../service/user.service";
-import { getPaymentLink } from "../service/payment.service";
+import { getPaymentLink, payWithPayStack } from "../service/payment.service";
 import { confirm_registration } from "../lib/mailer";
 import { writeToSheet } from "../lib/spreadsheet.config";
 import { slackApp } from "../config/slack.config";
@@ -40,6 +40,8 @@ export const register = async (req: Request, res: Response) => {
 
     // Initiate payment
     // const payment = await getPaymentLink(user, clientUrl);
+    const payment = await payWithPayStack(user);
+
 
     // Create a google doc sheet for users that registered - sheet should be named registered.
     await writeToSheet([
@@ -74,7 +76,7 @@ export const register = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message: `${user.name} created Successfully`,
-      // data: payment.data,
+      data: payment,
     });
   } catch (error) {
     console.log(error); // Log any errors for debugging

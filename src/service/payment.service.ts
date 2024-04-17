@@ -208,3 +208,49 @@ export const handleWebhookEvents = async (
     });
   }
 };
+
+
+// initialize paystack
+export const payWithPayStack = async (user: User): Promise<PaystackInitializeResponse> => {
+    
+  try {
+
+    // request body from the clients
+    const amount = 2000;
+   
+    // make request to Paystack API
+    const response = await axios.post('https://api.paystack.co/transaction/initialize', {
+        email: user.email,
+        amount: amount * 100, // Amount should be in the subunit of the supported currency
+        callback_url: 'localhost:5421',
+        metadata: {
+          // cancel_action: 'https://your-cancel-url.com' // Optional metadata
+          consumer_id: user.id,
+          customer_name: user.name,
+        }
+      }, {
+        headers: {
+          'Authorization': `Bearer ${process.env.PAYSTACK_TEST_KEY}`, // Replace with your public key
+          'Content-Type': 'application/json'
+        }
+      });
+
+      //create payment
+      const payment = new PaymentModel({
+       user: user.id,
+       reference: response.data.data.reference,
+       status: "pending"
+      });
+  
+      // Save payment object
+      payment.save();
+
+    // handle response
+    console.log(response.data.data.authorization_url);
+    return response.data.data.authorization_url;
+  } catch (error) {
+    // Handle any errors that occur during the request
+    console.error(error);
+    throw error;
+  }
+}
