@@ -149,6 +149,100 @@ if (sheet2) {
 
 
 
+//   export async function writeToSheetForPaid(values: any[][], newSheetTitle: string) {
+//     const spreadsheetId = process.env.SPREAD_SHEET_ID as string;
+//     const valueInputOption = "USER_ENTERED";
+
+//     const resource = {
+//         values
+//     };
+
+//     try {
+
+//         const sheetsInfo = await sheets.spreadsheets.get({
+//             spreadsheetId: spreadsheetId,
+//             fields: 'sheets(properties(sheetId,title))'
+//         });
+
+//         // Check if the sheet with newSheetTitle already exists
+//         const existingSheet = sheetsInfo.data.sheets?.find(sheet => sheet.properties?.title === newSheetTitle);
+
+//         if (!existingSheet) {
+//             // If the sheet doesn't exist, create a new one
+//             const batchUpdateResponse = await sheets.spreadsheets.batchUpdate({
+//                 spreadsheetId: spreadsheetId,
+//                 requestBody: {
+//                     requests: [
+//                         {
+//                             addSheet: {
+//                                 properties: {
+//                                     title: newSheetTitle,
+//                                 }
+//                             }
+//                         }
+//                     ]
+//                 }
+//             });
+            
+//             // Get the ID of the newly created sheet
+//             const sheetProperties = batchUpdateResponse?.data?.replies?.[0]?.addSheet?.properties;
+//             if (sheetProperties) {
+//                 const newSheetId = sheetProperties.sheetId;
+
+//                 // Use the ID of the newly created sheet for further operations
+//                 const range = `${newSheetTitle}!A1:A`; // Assuming column A contains continuous data
+
+//                 // Update values in the new sheet
+//                 const res = await sheets.spreadsheets.values.update({
+//                     spreadsheetId: spreadsheetId,
+//                     range: range,
+//                     valueInputOption: valueInputOption,
+//                     requestBody: resource
+//                 });
+
+//                 console.log(res);
+
+//                 return res;
+//             }
+//         }
+
+//         // If the sheet already exists, proceed with updating it
+//         const response = await sheets.spreadsheets.values.get({
+//             spreadsheetId: spreadsheetId,
+//             range: `${newSheetTitle}!A1:A`, // Assuming column A contains continuous data
+//         });
+
+//         const headersExist = response.data.values && response.data.values.length > 0;
+
+//         // Remove headers from values if they exist
+//         if (headersExist) {
+//             values.shift(); // Remove the first element (headers) from the values array
+//         }
+
+//         // Determine the range to update
+//         const numRows = response.data.values ? response.data.values.length : 0;
+//         const range = `${newSheetTitle}!A${headersExist ? numRows + 1 : 1}`;
+
+//         // Update values in the existing sheet
+//         const res = await sheets.spreadsheets.values.update({
+//             spreadsheetId: spreadsheetId,
+//             range: range,
+//             valueInputOption: valueInputOption,
+//             requestBody: resource
+//         });
+
+//         console.log(res);
+
+//         return res;
+//     } catch (error) {
+//         console.log(error);
+//         return error;
+//     }
+// }
+
+
+
+
 
 
 

@@ -9,7 +9,7 @@ import { slackApp } from "../config/slack.config";
 export const register = async (req: Request, res: Response) => {
   const { name, email, phoneNumber, state, age, gender, lga, term } = req.body;
 
-  const clientUrl = req.get('Referer');
+  // const clientUrl = req.get('Referer');
 
   // Check if the user exist
   const userExist = await getOneUserByEmail(email);
@@ -39,7 +39,7 @@ export const register = async (req: Request, res: Response) => {
     const user = await create(foundUser);
 
     // Initiate payment
-    const payment = await getPaymentLink(user, clientUrl);
+    // const payment = await getPaymentLink(user, clientUrl);
 
     // Create a google doc sheet for users that registered - sheet should be named registered.
     await writeToSheet([
@@ -74,7 +74,7 @@ export const register = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message: `${user.name} created Successfully`,
-      data: payment.data,
+      // data: payment.data,
     });
   } catch (error) {
     console.log(error); // Log any errors for debugging
