@@ -14,6 +14,11 @@ const runScheduler = () => {
 
   // const date = new Date(2024, 3, 10, 2, 25, 0);
 
+  // const testDate = new Date("2024-04-19T17:58:00");
+
+  // schedule.scheduleJob("test schedule", testDate, async () => {
+  //   console.log('test working')
+  // } )
   
   const marathonDate = new Date("2024-05-04T10:00:00");
   const twoWeeksDate = new Date(marathonDate);
