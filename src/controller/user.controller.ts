@@ -74,7 +74,7 @@ export const register = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message: `${user.name} created Successfully`,
-      // data: payment.data,
+      data: "https://forms.gle/nSrzUY7tVAgDTEQ27",
     });
   } catch (error) {
     console.log(error); // Log any errors for debugging
