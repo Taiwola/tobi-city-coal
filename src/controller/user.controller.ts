@@ -69,12 +69,14 @@ export const register = async (req: Request, res: Response) => {
         text: errorMessage,
       });
     }
+    
+    const authUrl = process.env.AUTH_URL as string;
 
     // Return success response when user is created and payment link is generated
     return res.status(200).json({
       success: true,
       message: `${user.name} created Successfully`,
-      data: "https://forms.gle/nSrzUY7tVAgDTEQ27",
+      data: authUrl,
     });
   } catch (error) {
     console.log(error); // Log any errors for debugging
